@@ -2,10 +2,16 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/font-awesome/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }} " />
   </head>
   <body>
-    
+
+    {% include 'sidebar.html' %}
+
+    {% block content %} {% endblock %}
+
     <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+    {% block footer %} {% endblock %}
   </body>
 </html>

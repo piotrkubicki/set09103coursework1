@@ -1,0 +1,65 @@
+#sidebar {
+  width : 12vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#branding {
+  height: 10%;
+  width: 100%;
+  background-color: #4CA7FF;
+  text-align: center;
+  padding: 15%;
+}
+
+#sidebar-menu {
+  height: 89.5%;
+  width: 100%;
+  background-color: #29557F;
+  margin-top: 2%;
+  padding: 0;
+}
+
+.sidebar-list {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  list-style: none;
+  font-family: Georgia, Serif;
+  font-size: 20px;
+}
+
+.list-item {
+  height: 11%;
+  width: 100%;
+  background-color: #0081FF;
+  padding-top: 15px;
+}
+
+.arrow {
+  float: right;
+  margin-right: 15px;
+  margin-top: 5px;
+}
+
+.sublist-item {
+  background-color: #4CA7FF;
+}
+
+a {
+  color: black;
+  margin-left: 5px;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+li {
+  margin-top: 5px;
+}
+
+
