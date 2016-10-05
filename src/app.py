@@ -26,20 +26,31 @@ def init_db():
       db.cursor().executescript(f.read())
     db.commit()
 
+    with app.open_resource('database/schemas/author_schema.sql', mode='r') as f:
+      db.cursor().executescript(f.read())
+    db.commit()
+
     with app.open_resource('database/seeders/genres_seeder.sql', mode='r') as f:
+      db.cursor().executescript(f.read())
+    db.commit()
+
+    with app.open_resource('database/seeders/authors_seeder.sql', mode='r') as f:
       db.cursor().executescript(f.read())
     db.commit()
 
 @app.route('/')
 def index():
   db = get_db()
-  #genres = ['Sci-fi', 'Drama', 'Comedy']
+  authors = []
   genres = []
-  sql = "SELECT name FROM genres"
-  for row in db.cursor().execute(sql):
+
+  for row in db.cursor().execute('SELECT name FROM genres'):
     genres.append(row[0])
 
-  return render_template('layout.html', genres = genres)
+  for row in db.cursor().execute('SELECT first_name, last_name FROM authors'):
+    authors.append(row[0] + ' ' + row[1])
+
+  return render_template('layout.html', genres = genres, authors = authors)
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)
