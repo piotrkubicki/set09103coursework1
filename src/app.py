@@ -1,5 +1,6 @@
 from flask import Flask, g,  url_for, render_template
 import sqlite3
+from os import walk
 
 app = Flask(__name__)
 
@@ -20,23 +21,32 @@ def close_db_connection(exception):
     db.close()
 
 def init_db():
+  schemas = []
+  seeders = []
+
+  for (_, _, filenames) in walk('database/schemas/'):
+    schemas.extend(filenames)
+
+  for (_, _, filenames) in walk('database/seeders/'):
+    seeders.extend(filenames)
+
   with app.app_context():
     db = get_db()
-    with app.open_resource('database/schemas/genre_schema.sql', mode='r') as f:
-      db.cursor().executescript(f.read())
-    db.commit()
+    print 'creating tables...'
+    for schema in schemas:
+      with app.open_resource('database/schemas/' + schema, mode='r') as f:
+        db.cursor().executescript(f.read())
+      db.commit()
 
-    with app.open_resource('database/schemas/author_schema.sql', mode='r') as f:
-      db.cursor().executescript(f.read())
-    db.commit()
+    print 'tables created'
 
-    with app.open_resource('database/seeders/genres_seeder.sql', mode='r') as f:
-      db.cursor().executescript(f.read())
-    db.commit()
+    print 'populating tables with seeds...'
+    for seeder in seeders:
+      with app.open_resource('database/seeders/' + seeder, mode='r') as f:
+        db.cursor().executescript(f.read())
+      db.commit()
 
-    with app.open_resource('database/seeders/authors_seeder.sql', mode='r') as f:
-      db.cursor().executescript(f.read())
-    db.commit()
+    print 'tables seeded'
 
 @app.route('/')
 def index():
@@ -50,7 +60,7 @@ def index():
   for row in db.cursor().execute('SELECT first_name, last_name FROM authors'):
     authors.append(row[0] + ' ' + row[1])
 
-  return render_template('layout.html', genres = genres, authors = authors)
+  return render_template('collection.html', genres = genres, authors = authors)
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

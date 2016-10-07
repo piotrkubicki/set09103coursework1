@@ -2,16 +2,19 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/font-awesome/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/select2/css/select2.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }} " />
+    {% block header %} {% endblock %}
   </head>
   <body>
 
     {% include 'sidebar.html' %}
 
     {% block content %} {% endblock %}
-
     <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/select2/js/select2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
     {% block footer %} {% endblock %}
   </body>
 </html>

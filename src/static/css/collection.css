@@ -1,0 +1,15 @@
+#main {
+  height: 100vh;
+  margin: 0;
+}
+
+#search-bar {
+  width: 87.7%;
+  height: 69px;
+  background-color: #4CA7FF;
+  padding: 15px;
+}
+
+#filters {
+  width: 20%;
+}

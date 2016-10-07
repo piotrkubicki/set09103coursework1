@@ -1,12 +1,17 @@
+body {
+  overflow: hidden;
+}
+
 #sidebar {
   width : 12vw;
   height: 100vh;
   margin: 0;
   padding: 0;
+  float: left;
 }
 
 #branding {
-  height: 10%;
+  height: 50px;
   width: 100%;
   background-color: #4CA7FF;
   text-align: center;
@@ -14,7 +19,7 @@
 }
 
 #sidebar-menu {
-  height: 89.5%;
+  height: 93%;
   width: 100%;
   background-color: #29557F;
   margin-top: 2%;
@@ -24,7 +29,6 @@
 .sidebar-list {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
   list-style: none;
   font-family: Georgia, Serif;
@@ -32,7 +36,7 @@
 }
 
 .list-item {
-  height: 11%;
+  height: 60px;
   width: 100%;
   background-color: #0081FF;
   padding-top: 15px;
@@ -42,10 +46,30 @@
   float: right;
   margin-right: 15px;
   margin-top: 5px;
+  animation: turnRight 0.3s;
+}
+
+.arrow.active {
+  animation: turnDown 0.3s;
+}
+
+.sublist {
+  max-height: 0;
+  opacity: 0;
+  animation: slideUp 1s;
+ /* transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out 0.5s; */
 }
 
 .sublist-item {
   background-color: #4CA7FF;
+}
+
+.sublist.active {
+  max-height: 500px;
+  opacity: 1;
+  animation: slideDown 1s;
+  display: block;
+  /*transition: max-height 0.6s ease-in-out 0.5s, opacity 0.6s ease-in-out;*/
 }
 
 a {
@@ -62,4 +86,22 @@ li {
   margin-top: 5px;
 }
 
+@keyframes slideDown {
+  0%    { max-height: 0; opacity: 0; }
+  50%   { max-height: 300px; opacity: 0; }
+  100%  { opacity: 1; }
+}
 
+@keyframes slideUp {
+  0%    { opacity: 1; max-height: 300px; }
+  25%   { opacity: 0; }
+  100%  { max-height: 0; }
+}
+
+@keyframes turnDown {
+  100%  { transform: rotate(90deg); }
+}
+
+@keyframes turnRight {
+  100%  { transform: rotate(-90deg); }
+}

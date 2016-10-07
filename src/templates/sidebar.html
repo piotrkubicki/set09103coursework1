@@ -11,10 +11,21 @@
       <li class="list-item">
         <a href="#"><i class="fa fa-book"></i> Genres <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
-      <ul class="sidebar-list">
+      <ul class="sidebar-list sublist">
       {% for genre in genres %}
         <li class="list-item sublist-item">
           <a href="#">{{ genre }}</a>
+        </li>
+      {% endfor %}
+      </ul>
+
+      <li class="list-item">
+        <a href="#"><i class="fa fa-user"></i> Authors <i class="fa fa-chevron-circle-right arrow"></i></a>
+      </li>
+      <ul class="sidebar-list sublist">
+      {% for author in authors %}
+        <li class="list-item sublist-item">
+          <a href="#">{{ author }}</a>
         </li>
       {% endfor %}
       </ul>

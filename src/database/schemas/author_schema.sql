@@ -5,5 +5,6 @@ CREATE TABLE authors (
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   date_of_birth DATE,
-  date_of_dead DATE
+  date_of_dead DATE,
+  PRIMARY KEY (author_id)
 );
