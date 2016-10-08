@@ -10,16 +10,17 @@ class Book():
         'id' : row[0],
         'title' : row[1],
         'cover' : row[2],
+        'authors' :  self.get_authors(row[0])
       }
 
     return book
 
   # return book authors
-  def get_authors(self, book_id, db):
+  def get_authors(self, book_id):
     authors = []
 
-    for author_id in db.cursor().execute('SELECT author_id FROM book_author WHERE book_id =' + str(book_id)):
-      for author in db.cursor().execute('SELECT first_name, last_name FROM authors WHERE author_id =' + str(author_id[0])):
+    for author_id in self.db.cursor().execute('SELECT author_id FROM book_author WHERE book_id =' + str(book_id)):
+      for author in self. db.cursor().execute('SELECT first_name, last_name FROM authors WHERE author_id =' + str(author_id[0])):
         authors.append(author[0] + ' ' + author[1])
 
     return authors
@@ -28,7 +29,12 @@ class Book():
   def all(self):
     books = []
     for row in self.db.cursor().execute('SELECT book_id, title, cover FROM books'):
-      book = self.get_book(row[0])
+      book = {
+        'id' : row[0],
+        'title' : row[1],
+        'cover' : row[2],
+        'authors' :  self.get_authors(row[0])
+      }
       books.append(book)
 
     return books

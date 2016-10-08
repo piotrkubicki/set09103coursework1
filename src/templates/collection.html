@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
 <div id="main">
   <div id="search-bar" class="container" style="float: right;">
     <form class="form-inline" action="" method="POST" name="search-form">
@@ -21,7 +22,37 @@
       <input class="form-control"  type="submit" name="submit" id="submit" />
     </form>
   </div>
+
+  <div id="content" class="container">
+    {% for book in books %}
+      <div id="{{ book.id }}" class="book">
+        <img src="{{ url_for('static',  filename=book.cover) }}" />
+        <p>{{ book.title }}</p>
+        <ul>
+          {% for author in book.authors %}
+          <li>{{ author }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+
+    {% if paginator.pages > 1 %}
+    <ul class="pagination">
+      <li {% if paginator.current_page == 1 %} class="disabled" {% endif %}>
+        <a id="previous" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      {% for page in range(paginator.pages) %}
+      <li{% if paginator.current_page == loop.index %} class="active" {% endif %}><a href="/?page={{ loop.index }}">{{ loop.index }}</a></li>
+      {% endfor %}
+      <li {% if paginator.current_page == paginator.pages %} class="disabled" {% endif %}>
+        <a id="next" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+
 </div>
+
 {% endblock %}
 
 {% block footer %}

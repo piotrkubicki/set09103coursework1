@@ -14,7 +14,7 @@
       <ul class="sidebar-list sublist">
       {% for genre in genres %}
         <li class="list-item sublist-item">
-          <a href="#">{{ genre }}</a>
+          <a id="{{ genre.id }}"  href="#">{{ genre.name }}</a>
         </li>
       {% endfor %}
       </ul>
@@ -25,7 +25,7 @@
       <ul class="sidebar-list sublist">
       {% for author in authors %}
         <li class="list-item sublist-item">
-          <a href="#">{{ author }}</a>
+          <a id="{{ author.id }}" href="#">{{ author.first_name }} {{ author.last_name }}</a>
         </li>
       {% endfor %}
       </ul>

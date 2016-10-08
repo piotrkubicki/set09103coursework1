@@ -1,9 +1,13 @@
-from flask import Flask, g,  url_for, render_template
+from flask import Flask, g,  url_for, render_template, session, request
 import sqlite3
 from os import walk
+from helpers.paginator import Paginator
 from objects.book import Book
+from objects.author import Author
+from objects.genre import Genre
 
 app = Flask(__name__)
+app.secret_key = '^%&jjsh,H/Y?Tk*&^ll..l,kd(uTRv)*&'
 
 db_location = 'database/books.db'
 
@@ -53,25 +57,22 @@ def init_db():
 @app.route('/')
 def index():
   db = get_db()
-  authors = []
-  genres = []
- # books = Book.all(db)
-  books = []
-  b = Book(db)
-  for row in db.cursor().execute('SELECT name FROM genres'):
-    genres.append(row[0])
 
-  for row in db.cursor().execute('SELECT first_name, last_name FROM authors'):
-    authors.append(row[0] + ' ' + row[1])
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  books = Book(db).all()
+  paginator = Paginator(books, 3, int(request.args.get('page', 1)))
 
-  #for row in db.cursor().execute('SELECT book_id, title, cover FROM books'):
-  #  book = b.get_book(row[0])
-  #  books.append(book)
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator)
 
-  books = b.all()
+@app.route('/genre/<id>')
+def search_by_genre(id):
+  db = get_db()
+  books = Genre(db).get_books(id)
+  authors = Author(db).all()
+  genres = Genre(db).all()
 
   return render_template('collection.html', genres = genres, authors = authors, books = books)
-
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

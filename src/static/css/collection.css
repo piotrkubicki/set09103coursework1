@@ -13,3 +13,31 @@
 #filters {
   width: 20%;
 }
+
+#content {
+  margin: 0;
+}
+
+.book {
+  float: left;
+  margin: 20px;
+  text-align: center;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+.pagination {
+  position: fixed;
+  bottom: 50px;
+  margin: 10px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: 300px;
+  width: 200px;
+}
