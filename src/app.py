@@ -1,6 +1,7 @@
 from flask import Flask, g,  url_for, render_template
 import sqlite3
 from os import walk
+from objects.book import Book
 
 app = Flask(__name__)
 
@@ -42,6 +43,7 @@ def init_db():
 
     print 'populating tables with seeds...'
     for seeder in seeders:
+      print seeder
       with app.open_resource('database/seeders/' + seeder, mode='r') as f:
         db.cursor().executescript(f.read())
       db.commit()
@@ -53,14 +55,23 @@ def index():
   db = get_db()
   authors = []
   genres = []
-
+ # books = Book.all(db)
+  books = []
+  b = Book(db)
   for row in db.cursor().execute('SELECT name FROM genres'):
     genres.append(row[0])
 
   for row in db.cursor().execute('SELECT first_name, last_name FROM authors'):
     authors.append(row[0] + ' ' + row[1])
 
-  return render_template('collection.html', genres = genres, authors = authors)
+  #for row in db.cursor().execute('SELECT book_id, title, cover FROM books'):
+  #  book = b.get_book(row[0])
+  #  books.append(book)
+
+  books = b.all()
+
+  return render_template('collection.html', genres = genres, authors = authors, books = books)
+
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)
