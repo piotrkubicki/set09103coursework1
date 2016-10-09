@@ -11,11 +11,12 @@ body {
 }
 
 #branding {
-  height: 50px;
+  height: 69px;
   width: 100%;
   background-color: #4CA7FF;
   text-align: center;
-  padding: 15%;
+  padding: 0;
+  font-family: Georgia, Serif;
 }
 
 #sidebar-menu {
@@ -39,7 +40,6 @@ body {
   height: 60px;
   width: 100%;
   background-color: #0081FF;
-  padding-top: 15px;
 }
 
 .arrow {
@@ -61,24 +61,35 @@ body {
  /* transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out 0.5s; */
 }
 
-.sublist-item {
-  background-color: #4CA7FF;
-}
-
 .sublist.active {
   max-height: 500px;
   opacity: 1;
   animation: slideDown 1s;
   display: block;
-  /*transition: max-height 0.6s ease-in-out 0.5s, opacity 0.6s ease-in-out;*/
+}
+
+.sublist-item {
+  background-color: #4CA7FF;
+}
+
+.sublist-item.active > :first-child {
+  color: white;
 }
 
 a {
+  display: block;
   color: black;
+  height: 100%;
   margin-left: 5px;
+  padding-top: 15px;
 }
 
-a:hover {
+a:visited, a:link {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover, a:active {
   color: white;
   text-decoration: none;
 }

@@ -9,14 +9,15 @@
 <div id="main">
   <div id="search-bar" class="container" style="float: right;">
     <form class="form-inline" action="" method="POST" name="search-form">
-      <div id="search-input" class="input-group col-md-6">
-         <span class="input-group-addon" id="search-icon"><i class="fa fa-search"></i></span>
-        <input type="text" class="form-control" name="search" placeholder="Search" />
+      <div id="search-input" class="input-group">
+        <span class="input-group-addon" id="search-icon"><i class="fa fa-search"></i></span>
+        <input id="search" type="text" class="form-control" name="search" placeholder="Search" />
       </div>
     
       <select id="filters" class="form-control"  name="filters" multiple="multiple" />
-        <option value="1" selected="selected">Title</option>
+        <option value="1">Title</option>
         <option value="2">Author</option>
+        <option value="3">Genre</option>
       </select>
     
       <input class="form-control"  type="submit" name="submit" id="submit" />
@@ -25,15 +26,17 @@
 
   <div id="content" class="container">
     {% for book in books %}
-      <div id="{{ book.id }}" class="book">
-        <img src="{{ url_for('static',  filename=book.cover) }}" />
-        <p>{{ book.title }}</p>
-        <ul>
-          {% for author in book.authors %}
-          <li>{{ author }}</li>
-          {% endfor %}
-        </ul>
-      </div>
+      <a class="image-link" href="/books/{{ book.id }}">
+        <div id="{{ book.id }}" class="book">
+          <img src="{{ url_for('static',  filename=book.cover) }}" />
+          <p class="title"><strong>{{ book.title }}</strong></p>
+          <ul>
+            {% for author in book.authors %}
+            <li>{{ author }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </a>
     {% endfor %}
 
     {% if paginator.pages > 1 %}

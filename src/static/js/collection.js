@@ -1,5 +1,7 @@
 $(document).ready(function() {
-  $('#filters').select2();
+  $('#filters').select2({
+    placeholder: "Select filters"
+  });
 
   $('#previous').on('click', function() {
     if ($(this).parent('li').hasClass('disabled') == false) { 

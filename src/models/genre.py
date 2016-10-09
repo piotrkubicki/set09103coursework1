@@ -1,5 +1,3 @@
-from book import Book
-
 class Genre():
   # initialise object with database connection
   def __init__(self, db):
@@ -35,3 +33,5 @@ class Genre():
       books.append(book.get_book(row[0]))
 
     return books
+
+from book import Book

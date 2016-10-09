@@ -1,31 +1,31 @@
 <div id="sidebar" class="container">
   
   <div id="branding" class="container">
-    <p>Brand name</p>
+    <h1>Books</h1>
   </div>
 
   <div id="sidebar-menu" class="container">
     <ul class="sidebar-list">
       <li class="list-item">
         <a href="/"><i class="fa fa-home"></i> Home</li></a>
-      <li class="list-item">
+      <li id="genres" class="list-item header">
         <a href="#"><i class="fa fa-book"></i> Genres <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
       <ul class="sidebar-list sublist">
       {% for genre in genres %}
-        <li class="list-item sublist-item">
-          <a id="{{ genre.id }}"  href="#">{{ genre.name }}</a>
+        <li class="list-item sublist-item {% if genre_id == genre.id %} active {% endif %}">
+          <a id="{{ genre.id }}"  href="/genres/{{ genre.id }}">{{ genre.name }}</a>
         </li>
       {% endfor %}
       </ul>
 
-      <li class="list-item">
+      <li id="authors" class="list-item header">
         <a href="#"><i class="fa fa-user"></i> Authors <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
       <ul class="sidebar-list sublist">
       {% for author in authors %}
-        <li class="list-item sublist-item">
-          <a id="{{ author.id }}" href="#">{{ author.first_name }} {{ author.last_name }}</a>
+        <li class="list-item sublist-item {% if author_id == author.id %} active {% endif %}">
+          <a id="{{ author.id }}" href="/authors/{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</a>
         </li>
       {% endfor %}
       </ul>

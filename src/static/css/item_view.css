@@ -1,0 +1,72 @@
+.cover-container > img {
+  margin: 30px;
+  float: left;
+}
+
+.star-rating i {
+  margin-top: 30px;
+}
+
+.info-container {
+  float: left;
+  padding-top: 10px;
+}
+
+.info-container > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-container > ul > li {
+  display: inline;
+}
+
+.spinner {
+  border: 3px solid #F3F3F3;
+  border-top: 3px solid #3498DB;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+  /*display: none;*/
+  animation: spin 1s linear infinite;
+}
+
+#header {
+  height: 69px;
+  width: 87.7%;
+  background-color: #4CA7FF;
+  float: right;
+}
+
+#rating-container {
+  width: 30%;
+  float: right;
+  margin-right: 40px;
+}
+
+#username {
+  width: 330px;
+}
+
+#comment-box {
+  width: 550px;
+}
+
+#rate {
+  width: 60px;
+}
+
+#overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
+}
+
+@keyframes spin {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
