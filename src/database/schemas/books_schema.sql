@@ -7,6 +7,7 @@ CREATE TABLE books (
   publisher VARCHAR(50),
   cover VARCHAR(255),
   genre_id int NOT NULL,
+  pages int,
 
   PRIMARY KEY (book_id),
   FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
