@@ -32,6 +32,18 @@
   animation: spin 1s linear infinite;
 }
 
+.panel-heading {
+  width: 100%;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group-addon {
+  width: 20%;
+}
+
 #header {
   height: 69px;
   width: 87.7%;
@@ -46,11 +58,11 @@
 }
 
 #username {
-  width: 330px;
+  width: 100%;
 }
 
 #comment-box {
-  width: 550px;
+  width: 100%;
 }
 
 #rate {

@@ -8,8 +8,8 @@
 
 <div id="main">
   <div id="search-bar" class="container" style="float: right;">
-    <form class="form-inline" action="" method="POST" name="search-form">
-      <div id="search-input" class="input-group">
+    <form class="form-inline" action="" method="POST" name="search-form" style="width: 100%">
+      <div id="search-input" class="input-group" style="width: 60%">
         <span class="input-group-addon" id="search-icon"><i class="fa fa-search"></i></span>
         <input id="search" type="text" class="form-control" name="search" placeholder="Search" />
       </div>
@@ -32,17 +32,18 @@
           <p class="title"><strong>{{ book.title }}</strong></p>
           <ul>
             {% for author in book.authors %}
-            <li>{{ author }}</li>
+            <li>{{ author.first_name }} {{ author.last_name }}</li>
             {% endfor %}
           </ul>
-        </div>
+        </div><!-- book -->
       </a>
     {% endfor %}
+  </div><!-- content -->
 
-    {% if paginator.pages > 1 %}
-    <ul class="pagination">
-      <li {% if paginator.current_page == 1 %} class="disabled" {% endif %}>
-        <a id="previous" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+  {% if paginator.pages > 1 %}
+  <ul class="pagination">
+    <li {% if paginator.current_page == 1 %} class="disabled" {% endif %}>
+      <a id="previous" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
       </li>
       {% for page in range(paginator.pages) %}
       <li{% if paginator.current_page == loop.index %} class="active" {% endif %}><a href="/?page={{ loop.index }}">{{ loop.index }}</a></li>
@@ -50,9 +51,8 @@
       <li {% if paginator.current_page == paginator.pages %} class="disabled" {% endif %}>
         <a id="next" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
       </li>
-    </ul>
-    {% endif %}
-  </div>
+  </ul>
+  {% endif %}
 
 </div>
 
