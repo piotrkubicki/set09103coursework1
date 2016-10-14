@@ -1,0 +1,18 @@
+#search-bar {
+  width: 87.7%;
+  height: 69px;
+  background-color: #4CA7FF;
+  padding: 15px;
+}
+
+#filters {
+  width: 20%;
+}
+
+#search {
+  width: 100%;
+}
+
+#search-input > span {
+  width: 5%;
+}

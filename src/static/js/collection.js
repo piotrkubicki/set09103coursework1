@@ -1,8 +1,4 @@
 $(document).ready(function() {
-  $('#filters').select2({
-    placeholder: "Select filters"
-  });
-
   $('#previous').on('click', function() {
     if ($(this).parent('li').hasClass('disabled') == false) { 
       var pageNumber = $('.pagination').find('.active').text();
