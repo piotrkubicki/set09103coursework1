@@ -1,0 +1,6 @@
+{% if rating >= 1 %} <i class="fa fa-star fa-2x"></i> {% elif rating < 1 and rating >= 0.5 %} <i class="fa fa-star-half-o fa-2x"></i> {% else %} <i class="fa fa-star-o fa-2x"></i> {% endif %}
+{% if rating >= 2 %} <i class="fa fa-star fa-2x"></i> {% elif rating < 2 and rating >= 1.5 %} <i class="fa fa-star-half-o fa-2x"></i> {% else %} <i class="fa fa-star-o fa-2x"></i> {% endif %}
+{% if rating >= 3 %} <i class="fa fa-star fa-2x"></i> {% elif rating < 3 and rating >= 2.5 %} <i class="fa fa-star-half-o fa-2x"></i> {% else %} <i class="fa fa-star-o fa-2x"></i> {% endif %}
+{% if rating >= 4 %} <i class="fa fa-star fa-2x"></i> {% elif rating < 4 and rating >= 3.5 %} <i class="fa fa-star-half-o fa-2x"></i> {% else %} <i class="fa fa-star-o fa-2x"></i> {% endif %}
+{% if rating == 5 %} <i class="fa fa-star fa-2x"></i> {% elif rating < 5 and rating >= 4.5 %} <i class="fa fa-star-half-o fa-2x"></i> {% else %} <i class="fa fa-star-o fa-2x"></i> {% endif %}
+<span class="badge" style="font-size: 20px;">{{ votes }}</span>

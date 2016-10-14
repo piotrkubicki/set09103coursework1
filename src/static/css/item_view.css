@@ -44,6 +44,16 @@
   width: 20%;
 }
 
+.comment {
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.comment-body {
+  border-bottom: 1px dotted #000000;
+  padding-bottom: 5px;
+}
+
 #header {
   height: 69px;
   width: 87.7%;
@@ -55,6 +65,11 @@
   width: 30%;
   float: right;
   margin-right: 40px;
+}
+
+#comments-container {
+  overflow-y: auto;
+  height: 500px;
 }
 
 #username {

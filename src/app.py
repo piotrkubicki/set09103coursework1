@@ -96,8 +96,12 @@ def show_book(id):
   authors = Author(db).all()
   genres = Genre(db).all()
   book = Book(db).get_book(id)
+  comment = Comment(db)
+  comments = comment.get_book_comments(id, 'DESC')
+  votes = len(comments)
+  rating = calculate_rating(comments, votes)
 
-  return render_template('item_view.html', genres = genres, authors = authors, book = book)
+  return render_template('item_view.html', genres = genres, authors = authors, book = book, comments = comments, rating = rating, votes = votes)
 
 @app.route('/books/<id>/comment', methods=['POST'])
 def send_comment(id):
@@ -106,17 +110,47 @@ def send_comment(id):
   book_id = id
   username = request.json['username']
   rating = request.json['rating']
-  text = request.json['comment']
+  text = request.json['text']
 
   comment.create_comment(book_id, username, rating, text)
-  print comment.get_comments(id)
+  comments = comment.get_book_comments(book_id, 'DESC')
+  last_comment = comments[0]
+  votes = len(comments)
 
   response = {
-    'rate' : '<p>rating</p>',
-    'comments' : '<p>rating</p>'
+    'rate' : render_template('book_rate.html', rating = calculate_rating(comments, votes), votes = votes),
+    'comments' : render_template('comment.html', comment = last_comment)
   }
 
   return jsonify(**response)
+
+def calculate_rating(comments, votes):
+  rating = 0
+
+  if votes > 0:
+    ratings = {
+      'one_star' : 0,
+      'two_stars' : 0,
+      'three_stars' : 0,
+      'four_stars' : 0,
+      'five_stars' : 0
+    }
+
+    for rate in comments:
+      if rate['rating'] == 1:
+        ratings['one_star'] += 1
+      elif rate['rating'] == 2:
+        ratings['two_stars'] += 1
+      elif rate['rating'] == 3:
+        ratings['three_stars'] += 1
+      elif rate['rating'] == 4:
+        ratings['four_stars'] += 1
+      else:
+        ratings['five_stars'] += 1
+
+    rating = (5 * ratings['five_stars'] + 4 * ratings['four_stars'] + 3 * ratings['three_stars'] + 2 * ratings['two_stars'] + ratings['one_star']) / float(votes)
+
+  return rating
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

@@ -13,12 +13,7 @@
     </div>
     
     <div class="star-rating">
-      <i class="fa fa-star-o fa-2x"></i>
-      <i class="fa fa-star-o fa-2x"></i>
-      <i class="fa fa-star-o fa-2x"></i>
-      <i class="fa fa-star-o fa-2x"></i>
-      <i class="fa fa-star-o fa-2x"></i>
-      <span class="badge" style="font-size: 20px;">0</span>
+      {% include('book_rate.html') %}
     </div>
     
     <div class="info-container">
@@ -63,9 +58,24 @@
             <textarea class="form-control" rows="4" name="comment" id="comment-box" placeholder="Comment"></textarea>
           </div><!-- panel-body -->
         </div><!-- panel -->
-      </form>
-    </div>
-  </div>
+      </form><!-- form inline -->
+      
+      <div id="comments-container">
+        {% for comment in comments %}
+          <div class="comment">
+            <div class="comment-header">
+              <p><strong>{{ comment.username }}<span class="pull-right">{{ comment.time }}</span></strong></p>
+            </div>
+            <div class="comment-body">
+              {{ comment.comment }}
+            </div>
+          </div><!-- comment -->
+        {% endfor %}
+      </div><!-- comments-container -->
+    
+    </div><!-- rating container -->
+    
+  </div><!-- main -->
 {% endblock %}
 
 {% block footer %}

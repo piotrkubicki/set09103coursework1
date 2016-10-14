@@ -45,30 +45,48 @@ $(document).ready(function() {
     e.preventDefault();
     self = $(this);
     self.html('<div class="spinner"></div>');
-    $('<div></div>').css({  
+
+    var position = $('#rating-container').position();
+
+    $('<div id="comment-overlay"></div>').css({  
       position: 'absolute',
-      width: '100%',
-      height: '100%',
-      top: 0,
-      left: 0,
-      background: '#ccc',
-      opacity: '0.5'
-    }).appendTo($(this).closest('div').closest('div').closest('div'));
+      width: $('#rating-container').width(),
+      height: $('#rating-container').innerHeight(),
+      top: position.top,
+      left: position.left,
+      background: '#FFFFFF',
+      opacity: '0.5',
+      zIndex: 9999
+    }).appendTo('body');
 
     var  comment = {
       username : $('#username').val(),
       rating : $('#rating-container').find('.fa-star').length,
-      comment : $('#comment-box').val()
+      text : $('#comment-box').val()
     }
+  
+    pathname = window.location.pathname;
 
     $.ajax({
       type: 'POST',
-      url: '/books/1/comment',
+      url: pathname + '/comment',
       data: JSON.stringify(comment),
       contentType: 'application/json;charset=UTF-8',
       success: function(result) {
-        console.log(result);
-        //self.html('Send');
+        self.html('Send');
+        $('#comment-overlay').remove();
+        $('.star-rating').html(result.rate);
+       
+        if ($('.comment').length > 0) {
+          $(result.comments).insertBefore('.comment:first-child').hide().slideDown();
+        } else {
+          console.log('dsdsdsd');
+          $(result.comments).appendTo('#comments-container').hide().slideDown();
+        }
+
+        $('#username').val('');
+        $('#comment-box').val('');
+        $('#rating-container i').trigger('mouseleave');
       }
     })
   });

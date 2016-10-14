@@ -6,7 +6,7 @@ class Comment():
     self.db = db
 
   def create_comment(self, book_id, username, rating, text):
-    comments = self.get_comments(book_id)
+    comments = self.get_comments()
 
     #check if any comment exists else set last_id to 0
     if (len(comments) > 0):
@@ -20,10 +20,15 @@ class Comment():
     self.db.cursor().execute('INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)', data)
     self.db.commit()
 
-  def get_comments(self, book_id):
+  def get_book_comments(self, book_id, order = 'ASC'):
     comments = []
 
-    for row in self.db.cursor().execute('SELECT comment_id, username, time, rating, comment FROM comments WHERE book_id = ' + str(book_id)):
+    if order == 'DESC':
+      query = 'SELECT comment_id, username, time, rating, comment FROM comments WHERE book_id = ' + str(book_id) + ' ORDER BY comment_id DESC'
+    else:
+      query = 'SELECT comment_id, username, time, rating, comment FROM comments WHERE book_id = ' + str(book_id) + ' ORDER BY comment_id ASC'
+
+    for row in self.db.cursor().execute(query):
       comment = {
         'comment_id' : row[0],
         'username' : row[1],
@@ -35,3 +40,30 @@ class Comment():
 
     return comments
 
+  def get_comment(self, comment_id):
+    for row in self.db.cursor().execute('SELECT comment_id, username, time, rating, comment FROM comments WHERE comment_id = ' + str(comment_id)):
+      comment = {
+        'comment_id' : row[0],
+        'username' : row[1],
+        'time' : row[2],
+        'rating' : row[3],
+        'comment' : row[4]
+      }
+
+    return comment
+
+  def get_comments(self):
+    comments = []
+
+    for row in self.db.cursor().execute('SELECT comment_id, username, time, rating, comment FROM comments'): 
+      comment = {
+        'comment_id' : row[0],
+        'username' : row[1],
+        'time' : row[2],
+        'rating' : row[3],
+        'comment' : row[4]
+      }
+
+      comments.append(comment)
+
+    return comments
