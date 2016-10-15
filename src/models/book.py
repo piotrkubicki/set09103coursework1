@@ -45,4 +45,22 @@ class Book():
 
     return books
 
+  # return all books for given search string
+  def search(self, query):
+    books = []
+
+    for row in self.db.cursor().execute('SELECT book_id, title, cover, publisher, pages, year FROM books WHERE ' + query):
+      book = {
+        'id' : row[0],
+        'title' : row[1],
+        'cover' : row[2],
+        'publisher' : row[3],
+        'pages' : row[4],
+        'year' : row[5],
+        'authors' : self.get_authors(row[0])
+      }
+      books.append(book)
+
+    return books
+
 from author import Author

@@ -70,6 +70,18 @@ def index():
 
   return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator)
 
+@app.route('/search/')
+def search():
+  words = request.args.get('q', '')
+  query = create_search_query(words)
+  db = get_db()
+  books = Book(db).search(query)
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  paginator = Paginator(books, 10, int(request.args.get('page', 1)))
+
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator)
+
 @app.route('/genres/<id>')
 def search_by_genre(id):
   db = get_db()
@@ -151,6 +163,19 @@ def calculate_rating(comments, votes):
     rating = (5 * ratings['five_stars'] + 4 * ratings['four_stars'] + 3 * ratings['three_stars'] + 2 * ratings['two_stars'] + ratings['one_star']) / float(votes)
 
   return rating
+
+def create_search_query(words):
+  query = 'title LIKE "%'
+
+  for letter in words:
+    if letter == '%':
+      letter = '%" AND title LIKE "%'
+    elif letter == ' ':
+      letter = '%" OR title LIKE "%'
+
+    query += letter
+
+  return query + '%"'
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)
