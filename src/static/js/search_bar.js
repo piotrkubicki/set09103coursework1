@@ -6,8 +6,8 @@ $(document).ready(function() {
   $('#search-submit').on('click', function(e) {
     e.preventDefault();
     var words = $('#search').val();
-    var filters = $('#filters').text();
-    var processed_words = ''
+    var filters = $('#filters').select2('data');
+    var link = '/search/?q=';
     
     for (var i = 0; i < words.length; i++) {
       letter = words[i];
@@ -16,9 +16,18 @@ $(document).ready(function() {
         letter = '%';
       }
 
-      processed_words += letter;
+      link += letter;
     }
 
-    window.location.href = '/search/?q=' + processed_words + '&filters=' + filters; 
+    if (filters.length)
+      link += '&filters=';
+
+    for (var i = 0; i < filters.length; i++) {
+      filter = filters[i].text;
+
+      link += filter.toLowerCase() + ' ';
+    }
+
+    window.location.href = link;
   });
 });

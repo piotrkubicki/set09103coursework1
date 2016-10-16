@@ -73,9 +73,9 @@ def index():
 @app.route('/search/')
 def search():
   words = request.args.get('q', '')
-  query = create_search_query(words)
+  filters = request.args.get('filters', '').split()
   db = get_db()
-  books = Book(db).search(query)
+  books = search_for_books(words, filters)
   authors = Author(db).all()
   genres = Genre(db).all()
   paginator = Paginator(books, 10, int(request.args.get('page', 1)))
@@ -164,18 +164,66 @@ def calculate_rating(comments, votes):
 
   return rating
 
-def create_search_query(words):
-  query = 'title LIKE "%'
+def create_search_query(words, *filters):
+  """Form a query string. Return a string.
 
-  for letter in words:
-    if letter == '%':
-      letter = '%" AND title LIKE "%'
-    elif letter == ' ':
-      letter = '%" OR title LIKE "%'
+  Keyword arguments:
+  words -- string containing words to search with special marks
+  *filters -- tuple containing filters for search query
+  """
+  if not filters:
+    filters = filters + ('title',)
 
-    query += letter
+  query = ''
 
-  return query + '%"'
+  for filter in filters:
+    query += filter + ' LIKE "%'
+
+    for letter in words:
+      if letter == '%':
+        letter = '%" AND ' + filter + ' LIKE "%'
+      elif letter == ' ':
+        letter = '%" OR ' + filter + ' LIKE "%'
+
+      query += letter
+
+    if filter == filters[-1]:
+      query += '%"'
+    else:
+      query += '%" OR '
+
+  return query
+
+def search_for_books(words, filters):
+  """Return a list of books for all given words and filters
+
+  Keyword arguments:
+  words -- string containing words to search
+  filters -- list of strings
+  """
+  db = get_db()
+  books = {}
+
+  if not filters:
+    filters.append('title')
+
+  for filter in filters:
+    if filter == 'title':
+      temp = Book(db).search(create_search_query(words))
+      for book in temp:
+        books[book['id']] = book
+    elif filter == 'author':
+      temp = Author(db).search_for_books(create_search_query(words, 'first_name', 'last_name'))
+      for book in temp:
+        if book['id'] not in books:
+          books[book['id']] = book
+    elif filter == 'genre':
+      temp = Genre(db).search_for_books(create_search_query(words, 'name'))
+      for book in temp:
+        if book['id'] not in books:
+          books[book['id']] = book
+
+  return [book for book in books.values()]
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

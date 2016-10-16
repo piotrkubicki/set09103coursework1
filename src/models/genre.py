@@ -1,10 +1,14 @@
 class Genre():
-  # initialise object with database connection
   def __init__(self, db):
+    """Initialize object with database connection.
+
+    Keyword arguments:
+    db -- database connection
+    """
     self.db = db
 
-  #return single genre with given id
   def get_genre(self, id):
+    """Return single genre with given id."""
     for row in self.db.cursor().execute('SELECT genre_id, name FROM genres WHERE genre_id=' + str(id)):
       genre = {
         'id' : row[0],
@@ -13,8 +17,8 @@ class Genre():
 
     return genre
 
-  # return all genres from database
   def all(self):
+    """Return all genres from database."""
     genres = []
     for row in self.db.cursor().execute('SELECT genre_id, name FROM genres'):
       genre = {
@@ -25,12 +29,21 @@ class Genre():
 
     return genres
 
-  # return all books for selected genre by genre id
   def get_books(self, genre_id):
+    """Return all books for selected genre by genre id."""
     books = []
     book = Book(self.db)
-    for row in self.db.cursor().execute('SELECT book_id FROM books WHERE genre_id=' + genre_id):
+    for row in self.db.cursor().execute('SELECT book_id FROM books WHERE genre_id=' + str(genre_id)):
       books.append(book.get_book(row[0]))
+
+    return books
+
+  def search_for_books(self, query):
+    """Returns list of books resulting from given query."""
+    books = []
+    book = Book(self.db)
+    for row in self.db.cursor().execute('SELECT genre_id FROM genres WHERE ' + query):
+      books.extend(self.get_books(row[0]))
 
     return books
 
