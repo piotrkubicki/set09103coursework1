@@ -1,7 +1,6 @@
 from flask import Flask, g,  url_for, render_template, session, request, jsonify
 import sqlite3
 from os import walk
-import fnmatch
 from helpers.paginator import Paginator
 from models.book import Book
 from models.author import Author
@@ -30,14 +29,11 @@ def close_db_connection(exception):
 def init_db():
   schemas = []
   seeders = []
-  pattern = '*.sql'
 
   for _, _, filenames in walk('database/schemas/'):
-    #for file in fnmatch.filter(filenames, pattern):
     schemas.extend(filenames)
 
   for _, _, filenames in walk('database/seeders/'):
-    #for file in fnmatch.filter(filenames, pattern):
     seeders.extend(filenames)
 
   with app.app_context():
@@ -123,16 +119,22 @@ def send_comment(id):
   username = request.json['username']
   rating = request.json['rating']
   text = request.json['text']
+  response = {}
 
-  comment.create_comment(book_id, username, rating, text)
-  comments = comment.get_book_comments(book_id, 'DESC')
-  last_comment = comments[0]
-  votes = len(comments)
+  if username == '' or rating == '' or text == '':
+    response = {
+      'error' : '<div class="alert alert-danger error active">All fields are required!</div>'
+    }
+  else:
+    comment.create_comment(book_id, username, rating, text)
+    comments = comment.get_book_comments(book_id, 'DESC')
+    last_comment = comments[0]
+    votes = len(comments)
 
-  response = {
-    'rate' : render_template('book_rate.html', rating = calculate_rating(comments, votes), votes = votes),
-    'comments' : render_template('comment.html', comment = last_comment)
-  }
+    response = {
+      'rate' : render_template('book_rate.html', rating = calculate_rating(comments, votes), votes = votes),
+      'comments' : render_template('comment.html', comment = last_comment)
+    }
 
   return jsonify(**response)
 

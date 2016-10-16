@@ -75,20 +75,34 @@ $(document).ready(function() {
       success: function(result) {
         self.html('Send');
         $('#comment-overlay').remove();
-        $('.star-rating').html(result.rate);
-       
-        if ($('.comment').length > 0) {
-          $(result.comments).insertBefore('.comment:first-child').hide().slideDown();
-        } else {
-          console.log('dsdsdsd');
-          $(result.comments).appendTo('#comments-container').hide().slideDown();
+        
+        if (result.error) {
+          $('body').append(result.error);
+          setTimeout(function() {
+            $('.error').removeClass('active');
+          }, 3000);
         }
 
-        $('#username').val('');
-        $('#comment-box').val('');
-        $('#rating-container i').trigger('mouseleave');
+        if (result.rate) $('.star-rating').html(result.rate);
+       
+        if (result.comments) {
+          if ($('.comment').length > 0) {
+            $(result.comments).insertBefore('.comment:first-child').hide().slideDown();
+          } else {
+            $(result.comments).appendTo('#comments-container').hide().slideDown();
+          }
+
+          $('#username').val('');
+          $('#comment-box').val('');
+          $('#rating-container i').trigger('mouseleave');
+        }
       }
     })
   });
 
+  $(document).on('animationend', function(e) {
+    if (e.originalEvent.animationName == 'slideUp') {
+      $(e.target).remove();
+    }
+  });
 });
