@@ -55,6 +55,10 @@ def init_db():
 
     print 'tables seeded'
 
+@app.errorhandler(404)
+def page_not_found(error):
+  return render_template('404_page.html'), 404
+
 @app.route('/')
 def index():
   db = get_db()
