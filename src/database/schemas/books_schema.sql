@@ -8,6 +8,8 @@ CREATE TABLE books (
   cover VARCHAR(255),
   genre_id int NOT NULL,
   pages int,
+  description VARCHAR(5000),
+  
 
   PRIMARY KEY (book_id),
   FOREIGN KEY (genre_id) REFERENCES genres(genre_id)

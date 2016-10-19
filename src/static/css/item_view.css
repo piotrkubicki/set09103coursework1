@@ -3,6 +3,7 @@
 }
 
 .info-container {
+  width: 30%;
   float: left;
   padding-top: 10px;
 }
@@ -32,12 +33,12 @@
   width: 100%;
   z-index: 9999;
   text-align: center;
-  animation: slideUp 0.5s ease-in;
+  animation: slideUpComment 0.5s ease-in;
 }
 
 .error.active {
   top: 0;
-  animation: slideDown 0.5s ease-out;
+  animation: slideDownComment 0.5s ease-out;
 }
 
 .panel-heading {
@@ -106,12 +107,12 @@
   100%  { transform: rotate(360deg); }
 }
 
-@keyframes slideDown {
+@keyframes slideDownComment {
   0%    { top: -55px; }
   100%  { top: 0; }
 }
 
-@keyframes slideUp {
+@keyframes slideUpComment {
   0%    { top: 0; }
   100%  { top: -55px; }
 }
