@@ -12,24 +12,53 @@
         <a href="#"><i class="fa fa-book"></i> Genres <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
       <ul class="sidebar-list sublist">
-      {% for genre in genres %}
-        <li class="list-item sublist-item {% if genre_id == genre.id %} active {% endif %}">
+        {% if admin %}
+        <li data-toggle="modal" data-target="#new-genre" class="list-item sublist-item admin"><a id="show-genre-form" href="#">Create genre</a></li>
+        {% endif %}
+        {% for genre in genres %}
+        <li id="genres-sublist" class="list-item sublist-item {% if genre_id == genre.id %} active {% endif %}">
           <a id="{{ genre.id }}"  href="/genres/{{ genre.id }}">{{ genre.name }}</a>
         </li>
-      {% endfor %}
+        {% endfor %}
       </ul>
 
       <li id="authors" class="list-item header">
         <a href="#"><i class="fa fa-user"></i> Authors <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
       <ul class="sidebar-list sublist">
-      {% for author in authors %}
+        {% if admin %}
+        <li data-toggle="modal" data-target="#new-author" class="list-item sublist-item admin"><a href="#">Create author</a></li>
+        {% endif %}
+        {% for author in authors %}
         <li class="list-item sublist-item {% if author_id == author.id %} active {% endif %}">
           <a id="{{ author.id }}" href="/authors/{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</a>
         </li>
-      {% endfor %}
+        {% endfor %}
       </ul>
     </ul>
   </div>
+
+{% if admin %}
+  <div class="modal fade" id="new-genre" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">New Genre Form</h4>
+        </div><!-- modal-header -->
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="genre-name" class="control-label">Genre name</label>
+              <input type="text" class="form-control" id="genre-name" />
+            </div><!-- form-group -->
+          </form>
+        </div><!-- modal-body -->
+        <div class="modal-footer">
+          <button id="send-genre-form" class="btn btn-primary">Create</button>
+        </div><!-- modal-footer -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- new-genre -->
+{% endif %}
 
 </div>

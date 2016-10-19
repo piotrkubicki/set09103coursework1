@@ -58,11 +58,10 @@ body {
   opacity: 0;
   animation: slideUp 1s;
   display: none;
- /* transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out 0.5s; */
 }
 
 .sublist.active {
-  max-height: 500px;
+  max-height: 900px;
   opacity: 1;
   animation: slideDown 1s;
   display: block;
@@ -70,6 +69,10 @@ body {
 
 .sublist-item {
   background-color: #4CA7FF;
+}
+
+.sublist-item.admin {
+  background-color: #D9534F;
 }
 
 .sublist-item.active > :first-child {
@@ -100,12 +103,12 @@ li {
 
 @keyframes slideDown {
   0%    { max-height: 0; opacity: 0; }
-  50%   { max-height: 300px; opacity: 0; }
+  80%   { max-height: 900px; opacity: 0; }
   100%  { opacity: 1; }
 }
 
 @keyframes slideUp {
-  0%    { opacity: 1; max-height: 300px; }
+  0%    { opacity: 1; max-height: 900px; }
   25%   { opacity: 0; }
   100%  { max-height: 0; }
 }

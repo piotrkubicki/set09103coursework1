@@ -1,5 +1,6 @@
-from flask import Flask, g,  url_for, render_template, session, request, jsonify
+from flask import Flask, g,  url_for, render_template, session, request, jsonify, redirect
 import sqlite3
+from functools import wraps
 from os import walk
 from helpers.paginator import Paginator
 from models.book import Book
@@ -54,6 +55,33 @@ def init_db():
       db.commit()
 
     print 'tables seeded'
+
+def authenticate(username, password):
+  if username == 'tester' and password == 'password':
+    return True
+  else:
+    return False
+
+def require_auth(f):
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    username = ''
+    password = ''
+    try:
+      if (session['username']):
+        username = str(session['username'])
+
+      if (session['password']):
+        password = str(session['password'])
+    except KeyError:
+      pass
+
+    if not authenticate(username, password):
+      return redirect(url_for('login'))
+
+    return f(*args, **kwargs)
+
+  return decorated
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -141,6 +169,55 @@ def send_comment(id):
     }
 
   return jsonify(**response)
+
+@app.route('/login/', methods = ['GET', 'POST'])
+def login():
+  if request.method == 'GET':
+    return render_template('login.html')
+  else:
+    username = request.form['username']
+    password = request.form['password']
+
+    if authenticate(username, password):
+      session['username'] = username
+      session['password'] = password
+
+      return redirect(url_for('admin_root'))
+    else:
+      return redirect(url_for('login'))
+
+@app.route('/logout/')
+def logout():
+  session.pop('username', None)
+  session.pop('password', None)
+
+  return redirect(url_for('login'))
+
+@app.route('/admin/')
+@require_auth
+def admin_root():
+  db = get_db()
+
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  books = Book(db).all()
+  paginator = Paginator(books, 10, int(request.args.get('page', 1)))
+
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator, admin = True)
+
+@app.route('/admin/genre/', methods = ['POST'])
+@require_auth
+def genre_create():
+  db = get_db()
+
+  genre_name = request.json['name']
+  Genre(db).create_genre(genre_name)
+
+  authors = Author(db).all()
+  genres = Genre(db).all()
+
+  return render_template('sidebar.html', genres = genres, authors = authors, admin = True)
+  #return '<li class="list-item sublist-item"><a id="10" href="/genres/10/">' + genre_name + '</a></li>'
 
 def calculate_rating(comments, votes):
   rating = 0
@@ -230,6 +307,7 @@ def search_for_books(words, filters):
           books[book['id']] = book
 
   return [book for book in books.values()]
+
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

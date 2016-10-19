@@ -47,4 +47,19 @@ class Genre():
 
     return books
 
+  def create_genre(self, name):
+    """Add new genre to database."""
+    genres = self.all()
+
+    if len(genres) > 0:
+      last_genre = genres[-1]
+      last_id = last_genre['id']
+    else:
+      last_id = 0
+
+    data = (int(last_id) + 1, name)
+
+    self.db.cursor().execute('INSERT INTO genres VALUES (?, ?)', data)
+    self.db.commit()
+
 from book import Book

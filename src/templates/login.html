@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/font-awesome/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/select2/css/select2.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }} " />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_bar.css') }} " />
+  </head>
+  <body>
+    <div id="login-container">
+      <form class="" action="" method="POST" name="login-form">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" name="username" id="username" />
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" id="password" />
+        <button id="login-btn">Login</button>
+      </form>
+    </div><!-- login-container -->
+
+    <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+  </body>
+</html>

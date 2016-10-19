@@ -12,5 +12,9 @@
     </select>
   
     <button class="form-control btn btn-default" id="search-submit">Search</button>
+
+    {% if admin %}
+    <button class="form-control btn btn-danger pull-right" id="logout-btn">Logout</button>
+    {% endif %}
   </form>
 </div>

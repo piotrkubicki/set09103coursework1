@@ -30,4 +30,9 @@ $(document).ready(function() {
 
     window.location.href = link;
   });
+
+  $('#logout-btn').on('click', function(e) {
+    e.preventDefault();
+    window.location.href = '/logout/';
+  });
 });
