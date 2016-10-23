@@ -15,7 +15,10 @@ class Comment():
     else:
       last_id = 0
 
-    data = (int(last_id) + 1, book_id, username, str(datetime.now()), rating, text)
+    time_now = datetime.now()
+
+#    data = (int(last_id) + 1, book_id, username, str(datetime.now()), rating, text)
+    data = (int(last_id) + 1, book_id, username, '{:%d/%m/%Y %H:%M}'.format(time_now), rating, text)
 
     self.db.cursor().execute('INSERT INTO comments VALUES (?, ?, ?, ?, ?, ?)', data)
     self.db.commit()

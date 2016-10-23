@@ -20,7 +20,7 @@
     <a id="previous" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
     </li>
     {% for page in range(paginator.pages) %}
-    <li{% if paginator.current_page == loop.index %} class="active" {% endif %}><a href="/?page={{ loop.index }}">{{ loop.index }}</a></li>
+    <li{% if paginator.current_page == loop.index %} class="active" {% endif %}><a href="{% if admin %}/admin{% endif %}/?page={{ loop.index }}">{{ loop.index }}</a></li>
     {% endfor %}
     <li {% if paginator.current_page == paginator.pages %} class="disabled" {% endif %}>
       <a id="next" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>

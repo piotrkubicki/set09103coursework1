@@ -67,6 +67,8 @@ $(document).ready(function() {
   
     pathname = window.location.pathname;
 
+    pathname = pathname.replace('/admin', '');
+
     $.ajax({
       type: 'POST',
       url: pathname + '/comment',

@@ -6,33 +6,29 @@
 
 {% block content %}
   <div id="main">
-    <div id="cover-container">
-     <img src="{{ book.cover }}" /> 
+    <div id="book-container">
+      <div id="cover-container">
+       <img src="{{ book.cover }}" /> 
+      </div>
+      
+      <div class="star-rating">
+        {% include('book_rate.html') %}
+      </div>
+      
+      <div class="info-container">
+        <p><strong>Title:</strong> {{ book.title }}</p>
+        <ul id="authors-list">
+          <li class="list-heading"><strong>{% if book.authors|length > 1 %} Authors: {% else %} Author: {% endif %}</strong></li>
+          {% for author in book.authors %}
+          <li>{{ author.first_name }} {{ author.last_name }}</li>
+          {% endfor %}
+        </ul>
+        <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+        <p><strong>Pages:</strong> {{ book.pages }}</p>
+        <p><strong>Year:</strong> {{ book.year }}</p>
+        <p>{{ book.description }}</p>
+      </div>
     </div>
-    
-    <div class="star-rating">
-      {% include('book_rate.html') %}
-    </div>
-    
-    <div class="info-container">
-      <p><strong>Title:</strong> {{ book.title }}</p>
-      <ul id="authors-list">
-        <li class="list-heading"><strong>{% if book.authors|length > 1 %} Authors: {% else %} Author: {% endif %}</strong></li>
-        {% for author in book.authors %}
-        <li>{{ author.first_name }} {{ author.last_name }}</li>
-        {% endfor %}
-      </ul>
-      <p><strong>Publisher:</strong> {{ book.publisher }}</p>
-      <p><strong>Pages:</strong> {{ book.pages }}</p>
-      <p><strong>Year:</strong> {{ book.year }}</p>
-      <p>{{ book.description }}</p>
-    </div>
-    
-    <!--<div id="authors-info">
-      {% for author in book.authors %}
-      <img src="{{ url_for('static', filename=author.photo) }}" />
-      {% endfor %}
-    </div>-->
 
     <div id="rating-container">
       <form class="form-inline" action="" name="rating" method="post">
@@ -74,6 +70,15 @@
     
     </div><!-- rating container -->
     
+    <div id="authors-info">
+      {% for author in book.authors %}
+      <div class="author">
+        <img src="{{ url_for('static', filename=author.photo) }}" />
+        <p><strong>{{ author.first_name }} {{ author.last_name }}</strong></p>
+        <p> {{ author.date_of_birth }} {% if author.date_of_dead %} - {{ author.date_of_dead }}{% endif %}</p>
+      </div>
+      {% endfor %}
+    </div>
   </div><!-- main -->
 {% endblock %}
 

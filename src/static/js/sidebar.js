@@ -132,7 +132,7 @@ $(document).ready(function() {
         if (result.error) {
           showMessage('danger', result.error);
         } else if (result.success) {
-          $('#main').html(result);
+          $('#main').html(result.success);
           $('#new-book').modal('toggle');
         }
       },
