@@ -53,7 +53,7 @@ $(document).ready(function() {
         self.html('Create');
 
         if (result.error) {
-          showMessage('danger', 'Genre cannot be created!');
+          showMessage('danger', result.error);
         } else if (result.success) {
           $('#genres-sublist').append(result.success);
           $('#book-genre').append(result.listentry);
@@ -71,7 +71,9 @@ $(document).ready(function() {
 
   $(document).on('click', '#send-author-form', function(e) {
     e.preventDefault();
-
+    self = $(this);
+    self.html('<div class="spinner"></div>');
+    
     newObject.first_name = $('#first-name').val();
     newObject.last_name = $('#last-name').val();
     newObject.dob = $('#date-of-birth').val();
@@ -83,6 +85,7 @@ $(document).ready(function() {
       data: JSON.stringify(newObject),
       contentType: 'application/json;charset=UTF-8',
       success: function(result) {
+        self.html('Create');
         if (result.error) {
           showMessage('danger', result.error);
         } else if (result.success) {
@@ -106,6 +109,8 @@ $(document).ready(function() {
 
   $(document).on('click', '#send-book-form', function(e) {
     e.preventDefault();
+    self = $(this);
+    self.html('<div class="spinner"></div>');
 
     newObject.title = $('#book-title').val();
     newObject.publisher = $('#publisher').val();
@@ -121,6 +126,7 @@ $(document).ready(function() {
       data: JSON.stringify(newObject),
       contentType: 'application/json;charset=UTF-8',
       success: function(result) {
+        self.html('Create');
         newObject = {};
 
         if (result.error) {
@@ -140,9 +146,9 @@ $(document).ready(function() {
     });
   });
   
-  if (document.location.pathname.indexOf('/genres/') == 0) {
+  if (document.location.pathname.indexOf('/genres/') == 0 || document.location.pathname.indexOf('/genres/') == 6) {
     $('#genres').trigger('click');
-  } else if (document.location.pathname.indexOf('/authors/') == 0) {
+  } else if (document.location.pathname.indexOf('/authors/') == 0 || document.location.pathname.indexOf('/authors/') == 6) {
     $('#authors').trigger('click');
   }
 
@@ -175,7 +181,21 @@ $(document).ready(function() {
     }
   });
 
-  $('#book-authors').select2();
+  $('#book-authors').select2({
+    placeholder: "Select authors"
+  });
+
+  $('#book-genre').select2({
+    placeholder: "Select genre",
+    allowClear: true,
+    minimumResultsForSearch: Infinity
+  });
+
+  $('#book-year').select2({
+    placeholder: 'Select year',
+    allowClear: true,
+    minimumResultsForSearch: Infinity
+  });
 
   var createOverlay = function(container) {
     var position = container.position();

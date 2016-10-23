@@ -7,7 +7,7 @@
   <div id="sidebar-menu" class="container">
     <ul class="sidebar-list">
       <li class="list-item">
-        <a href="/"><i class="fa fa-home"></i> Home</li></a>
+        <a href="/{% if admin %}admin/{% endif %}"><i class="fa fa-home"></i> Home</li></a>
       <li id="genres" class="list-item header">
         <a href="#"><i class="fa fa-book"></i> Genres <i class="fa fa-chevron-circle-right arrow"></i></a>
       </li>
@@ -17,7 +17,7 @@
         {% endif %}
         {% for genre in genres %}
         <li class="list-item sublist-item {% if genre_id == genre.id %} active {% endif %}">
-          <a id="{{ genre.id }}"  href="/genres/{{ genre.id }}">{{ genre.name }}</a>
+          <a id="{{ genre.id }}"  href="{% if admin %}/admin{% endif %}/genres/{{ genre.id }}">{{ genre.name }}</a>
         </li>
         {% endfor %}
       </ul>
@@ -31,7 +31,7 @@
         {% endif %}
         {% for author in authors %}
         <li class="list-item sublist-item {% if author_id == author.id %} active {% endif %}">
-          <a id="{{ author.id }}" href="/authors/{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</a>
+          <a id="{{ author.id }}" href="{% if admin %}/admin{% endif %}/authors/{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</a>
         </li>
         {% endfor %}
       </ul>
@@ -119,20 +119,21 @@
                 <option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</option>
                 {% endfor %}
               </select>
-              
-            
+               
               <label for="publisher" class="control-label">Publisher*</label>
               <input type="text" class="form-control" id="publisher" />
              
               <label for="book-year">Year*</label>
-              <select class="form-control" id="book-year">
+              <select class="form-control" id="book-year" style="width: 100%">
+                <option value=""></option>
                 {% for i in range(1900, 2017) %}
                 <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
               </select>
 
               <label for="book-genre">Genre*</label>
-              <select class="form-control" id="book-genre">
+              <select class="form-control" id="book-genre" style="width: 100%">
+                <option value=""></option>
                 {% for genre in genres %}
                 <option value="{{ genre.id }}">{{ genre.name }}</option>
                 {% endfor %}

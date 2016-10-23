@@ -321,6 +321,7 @@ def admin_search_by_author(id):
   return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator, author_id = int(id), admin = True)
 
 @app.route('/admin/books/<id>')
+@require_auth
 def admin_show_book(id):
   db = get_db()
   authors = Author(db).all()
