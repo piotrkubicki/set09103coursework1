@@ -35,7 +35,7 @@ class Book():
   # return all books from database
   def all(self):
     books = []
-    for row in self.db.cursor().execute('SELECT book_id, title, cover, publisher, pages, year, description FROM books'):
+    for row in self.db.cursor().execute('SELECT book_id, title, cover, publisher, pages, year, description FROM books ORDER BY title ASC'):
       book = {
         'id' : row[0],
         'title' : row[1],
@@ -58,7 +58,7 @@ class Book():
   def search(self, query):
     books = []
 
-    for row in self.db.cursor().execute('SELECT book_id, title, cover, publisher, pages, year, description FROM books WHERE ' + query):
+    for row in self.db.cursor().execute('SELECT book_id, title, cover, publisher, pages, year, description FROM books WHERE ' + query + ' ORDER BY title ASC'):
       book = {
         'id' : row[0],
         'title' : row[1],
