@@ -1,6 +1,7 @@
 from flask import Flask, g,  url_for, render_template, session, request, jsonify, redirect
 import sqlite3
 from functools import wraps
+import base64
 from os import walk
 from helpers.paginator import Paginator
 from models.book import Book
@@ -57,7 +58,7 @@ def init_db():
     print 'tables seeded'
 
 def authenticate(username, password):
-  if username == 'tester' and password == 'password':
+  if username == 'admin' and password == 'password':
     return True
   else:
     return False
@@ -207,17 +208,130 @@ def admin_root():
 
 @app.route('/admin/genre/', methods = ['POST'])
 @require_auth
-def genre_create():
+def create_genre():
   db = get_db()
 
   genre_name = request.json['name']
-  Genre(db).create_genre(genre_name)
 
+  if genre_name == '':
+    response = {
+      'error' : 'Please fill in all required fields!'
+    }
+  else:
+    Genre(db).create_genre(genre_name)
+    genres = Genre(db).all()
+    last_genre = genres[-1]
+    genre_id = str(last_genre['id'])
+    response = {
+      'success' : '<li class="list-item sublist-item" style="display: none"><a id=' + genre_id + '" href="/genres/' + genre_id + '/">' + genre_name + '</a></li>',
+      'listentry' : '<option value="' + genre_id +'">' + genre_name + '</option>'
+    }
+
+  return jsonify(**response)
+
+@app.route('/admin/author/', methods = ['POST'])
+@require_auth
+def create_author():
+  db = get_db()
+  first_name = request.json['first_name']
+  last_name = request.json['last_name']
+  dob = request.json['dob']
+  dod = request.json['dod']
+  photo = request.json['photo']
+
+  if first_name == '' or last_name == '' or dob == '' or photo == '':
+    response = {
+      'error' : 'Please fill in all required fields!'
+    }
+  else:
+    Author(db).create_author(first_name, last_name, dob, dod, photo)
+
+    authors = Author(db).all()
+    last_author = authors[-1]
+    author_id = str(last_author['id'])
+
+    response = {
+      'success' : '<li class="list-item sublist-item" style="display: none"><a id=' + author_id + '" href="/genres/' + author_id + '/">' + first_name + ' ' + last_name + '</a></li>',
+      'listentry' : '<option value="' + author_id + '">' + first_name + ' ' + last_name + '</option>'
+    }
+
+  return jsonify(**response)
+
+@app.route('/admin/book/', methods = ['POST'])
+@require_auth
+def create_book():
+  db = get_db()
+  title = request.json['title']
+  publisher = request.json['publisher']
+  year = request.json['year']
+  genre_id = request.json['genre_id']
+  pages = request.json['pages']
+  description = request.json['description']
+  authors = request.json['authors']
+  cover = request.json['photo']
+
+  if title == '' or publisher == '' or year == '' or genre_id == '' or pages == '' or authors == [] or cover == '':
+    response = {
+      'error' : 'Please fill in all required fields!'
+    }
+  else:
+    Book(db).create_book(title, year, publisher, cover, genre_id, pages, description, authors)
+    books = Book(db).all()
+    paginator = Paginator(books, 10, int(request.args.get('page', 1)))
+
+    response = {
+      'success' : render_template('books-collection.html', books = paginator.items, paginator = paginator)
+    }
+
+  return jsonify(**response)
+
+@app.route('/admin/search/')
+@require_auth
+def admin_search():
+  words = request.args.get('q', '')
+  filters = request.args.get('filters', '').split()
+  db = get_db()
+  books = search_for_books(words, filters)
   authors = Author(db).all()
   genres = Genre(db).all()
+  paginator = Paginator(books, 10, int(request.args.get('page', 1)))
 
-  return render_template('sidebar.html', genres = genres, authors = authors, admin = True)
-  #return '<li class="list-item sublist-item"><a id="10" href="/genres/10/">' + genre_name + '</a></li>'
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator, admin = True)
+
+@app.route('/admin/genres/<id>')
+@require_auth
+def admin_search_by_genre(id):
+  db = get_db()
+  books = Genre(db).get_books(id)
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  paginator = Paginator(books, 10, int(request.args.get('page', 1)))
+
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator, genre_id = int(id), admin = True)
+
+@app.route('/admin/authors/<id>')
+@require_auth
+def admin_search_by_author(id):
+  db = get_db()
+  books = Author(db).get_books(id)
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  paginator = Paginator(books, 10, int(request.args.get('page', 1)))
+
+  return render_template('collection.html', genres = genres, authors = authors, books = paginator.items, paginator = paginator, author_id = int(id), admin = True)
+
+@app.route('/admin/books/<id>')
+def admin_show_book(id):
+  db = get_db()
+  authors = Author(db).all()
+  genres = Genre(db).all()
+  book = Book(db).get_book(id)
+  comment = Comment(db)
+  comments = comment.get_book_comments(id, 'DESC')
+  votes = len(comments)
+  rating = calculate_rating(comments, votes)
+
+  return render_template('item_view.html', genres = genres, authors = authors, book = book, comments = comments, rating = rating, votes = votes, admin = True)
 
 def calculate_rating(comments, votes):
   rating = 0

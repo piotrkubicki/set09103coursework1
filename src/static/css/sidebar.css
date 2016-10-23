@@ -25,6 +25,7 @@ body {
   background-color: #29557F;
   margin-top: 2%;
   padding: 0;
+  overflow-y: auto;
 }
 
 .sidebar-list {
@@ -79,6 +80,30 @@ body {
   color: white;
 }
 
+.spinner {
+  border: 3px solid #F3F3F3;
+  border-top: 3px solid #3498DB;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+  animation: spin 1s linear infinite;
+}
+
+.error {
+  position: absolute;
+  top: -55px;
+  width: 100%;
+  z-index: 9999;
+  text-align: center;
+  animation: slideUpError 0.5s ease-in;
+}
+
+.error.active {
+  top: 0;
+  animation: slideDownError 0.5s ease-out;
+}
+
 a {
   display: block;
   color: black;
@@ -119,4 +144,19 @@ li {
 
 @keyframes turnRight {
   100%  { transform: rotate(-90deg); }
+}
+
+@keyframes spin {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
+
+@keyframes slideDownError {
+  0%    { top: -55px; }
+  100%  { top: 0; }
+}
+
+@keyframes slideUpError {
+  0%    { top: 0; }
+  100%  { top: -55px; }
 }

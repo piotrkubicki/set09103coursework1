@@ -101,7 +101,7 @@ $(document).ready(function() {
   });
 
   $(document).on('animationend', function(e) {
-    if (e.originalEvent.animationName == 'slideUp') {
+    if (e.originalEvent.animationName == 'slideUpComment') {
       $(e.target).remove();
     }
   });

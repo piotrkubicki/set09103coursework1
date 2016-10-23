@@ -58,5 +58,19 @@ class Author():
 
     return books
 
+  def create_author(self, first_name, last_name, dob, dod, photo):
+    """Add new author entry to authors table."""
+    authors = self.all()
+
+    if len(authors) > 0:
+      last_author = authors[-1]
+      last_id = last_author['id']
+    else:
+      last_id = 0
+
+    data = (int(last_id) + 1, first_name, last_name, dob, dod, photo)
+
+    self.db.cursor().execute('INSERT INTO authors VALUES (?, ?, ?, ?, ?, ?)', data)
+    self.db.commit()
 
 from book import Book

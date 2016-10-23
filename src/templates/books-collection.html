@@ -1,0 +1,29 @@
+<div id="content" class="container">
+  {% for book in books %}
+    <a class="image-link" href="{% if admin %}/admin{% endif %}/books/{{ book.id }}">
+      <div id="{{ book.id }}" class="book">
+        <img src="{{ book.cover }}" />
+        <p class="title"><strong>{{ book.title }}</strong></p>
+        <ul>
+          {% for author in book.authors %}
+          <li>{{ author.first_name }} {{ author.last_name }}</li>
+          {% endfor %}
+        </ul>
+      </div><!-- book -->
+    </a>
+  {% endfor %}
+</div><!-- content -->
+
+{% if paginator.pages > 1 %}
+<ul class="pagination">
+  <li {% if paginator.current_page == 1 %} class="disabled" {% endif %}>
+    <a id="previous" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    {% for page in range(paginator.pages) %}
+    <li{% if paginator.current_page == loop.index %} class="active" {% endif %}><a href="/?page={{ loop.index }}">{{ loop.index }}</a></li>
+    {% endfor %}
+    <li {% if paginator.current_page == paginator.pages %} class="disabled" {% endif %}>
+      <a id="next" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+</ul>
+{% endif %}

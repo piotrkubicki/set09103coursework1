@@ -77,6 +77,28 @@ class Book():
 
     return books
 
+  def create_book(self, title, year, publisher, cover, genre_id, pages, description, authors):
+    """Add new book and book_author entry to related tables."""
+    books = self.all()
+
+    if len(books) > 0:
+      last_book = books[-1]
+      last_id = last_book['id']
+    else:
+      last_id = 0
+
+    book_id = int(last_id) + 1
+
+    data = (book_id, title, year, publisher, cover, genre_id, pages, description)
+
+    self.db.cursor().execute('INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?)', data)
+    self.db.commit()
+
+    for author in authors:
+      data = (book_id, int(author))
+      self.db.cursor().execute('INSERT INTO book_author VALUES (?, ?)', data)
+      self.db.commit()
+
 #default_text =  '''Praesent aliquet mattis tellus, ac pulvinar turpis faucibus sit amet.
 # Aenean metus eros, dignissim ac pellentesque et, tempor at risus. Praesent egestas sapien
 # convallis leo volutpat egestas. Nulla at tristique purus. Donec tristique
