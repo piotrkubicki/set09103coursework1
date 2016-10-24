@@ -252,7 +252,7 @@ def create_author():
     author_id = str(last_author['id'])
 
     response = {
-      'success' :  render_template('author_sidebar.html', author = last_author, admin = True),
+      'success' :  render_template('new_author_sidebar.html', author = last_author, admin = True),
       'listentry' : '<option value="' + author_id + '">' + first_name + ' ' + last_name + '</option>'
     }
 
@@ -281,7 +281,7 @@ def create_book():
     paginator = Paginator(books, 10, int(request.args.get('page', 1)))
 
     response = {
-      'success' : render_template('books-collection.html', books = paginator.items, paginator = paginator)
+      'success' : render_template('books-collection.html', books = paginator.items, paginator = paginator, admin = True)
     }
 
   return jsonify(**response)
