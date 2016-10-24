@@ -1,0 +1,3 @@
+<li class="list-item sublist-item {% if genre_id == genre.id %} active {% endif %}" style="display: none">
+  <a id="{{ genre.id }}"  href="{% if admin %}/admin{% endif %}/genres/{{ genre.id }}">{{ genre.name }}</a>
+</li>

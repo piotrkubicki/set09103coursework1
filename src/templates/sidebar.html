@@ -79,10 +79,20 @@
               <input type="text" class="form-control" id="last-name" />
               
               <label for="date-of-birth" class="control-label">Date of birth*</label>
-              <input type="date" class="form-control" id="date-of-birth" />
+              <select class="form-control" id="date-of-birth" style="width: 100%">
+                <option value=""></option>
+                {% for i in range(1700, 1990) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+              </select>
 
               <label for="date-of-dead" class="control-label">Date of dead</label>
-              <input type="date" class="form-control" id="date-of-dead" />
+              <select class="form-control" id="date-of-dead" style="width: 100%">
+                <option value=""></option>
+                {% for i in range(1700, 2016) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+              </select>
               
               <label for="author-photo" class="control-label">Author photo*</label>
               <div class="input-group">

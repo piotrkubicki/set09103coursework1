@@ -222,8 +222,9 @@ def create_genre():
     genres = Genre(db).all()
     last_genre = genres[-1]
     genre_id = str(last_genre['id'])
+
     response = {
-      'success' : '<li class="list-item sublist-item" style="display: none"><a id=' + genre_id + '" href="/genres/' + genre_id + '/">' + genre_name + '</a></li>',
+      'success' : render_template('new_genre_sidebar.html', genre = last_genre, admin = True),
       'listentry' : '<option value="' + genre_id +'">' + genre_name + '</option>'
     }
 
@@ -251,7 +252,7 @@ def create_author():
     author_id = str(last_author['id'])
 
     response = {
-      'success' : '<li class="list-item sublist-item" style="display: none"><a id=' + author_id + '" href="/genres/' + author_id + '/">' + first_name + ' ' + last_name + '</a></li>',
+      'success' :  render_template('author_sidebar.html', author = last_author, admin = True),
       'listentry' : '<option value="' + author_id + '">' + first_name + ' ' + last_name + '</option>'
     }
 

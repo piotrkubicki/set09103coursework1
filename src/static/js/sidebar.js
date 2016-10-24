@@ -38,7 +38,6 @@ $(document).ready(function() {
     e.preventDefault();
     self = $(this);
     self.html('<div class="spinner"></div>');
-    //createOverlay($('#new-genre .modal-content'));
 
     var genre = {
       name : $('#genre-name').val()
@@ -59,6 +58,7 @@ $(document).ready(function() {
           $('#book-genre').append(result.listentry);
           $('#genres-sublist').find('li').last().slideDown();
           $('#new-genre').modal('toggle');
+          showMessage('success', 'Genre created successfully');
         }
       },
       error: function() {
@@ -86,15 +86,16 @@ $(document).ready(function() {
       contentType: 'application/json;charset=UTF-8',
       success: function(result) {
         self.html('Create');
+        newObject = {}
+        
         if (result.error) {
           showMessage('danger', result.error);
         } else if (result.success) {
-          //$('#sidebar-menu').html(result);
           $('#authors-sublist').append(result.success);
           $('#book-authors').append(result.listentry);
           $('#authors-sublist').find('li').last().slideDown();
           $('#new-author').modal('toggle');
-          newObject = {};
+          showMessage('success', 'Author created successfully');
         }
       },
       error: function() {
@@ -134,6 +135,7 @@ $(document).ready(function() {
         } else if (result.success) {
           $('#main').html(result.success);
           $('#new-book').modal('toggle');
+          showMessage('success', 'Book created successfully.');
         }
       },
       error: function() {
@@ -196,21 +198,6 @@ $(document).ready(function() {
     allowClear: true,
     minimumResultsForSearch: Infinity
   });
-
-  var createOverlay = function(container) {
-    var position = container.position();
-
-    $('<div id="comment-overlay"></div>').css({  
-      position: 'absolute',
-      width: container.width(),
-      height: container.innerHeight(),
-      top: position.top,
-      left: position.left,
-      background: '#FFFFFF',
-      opacity: '0.5',
-      zIndex: 9999
-    }).appendTo('body');
-  }
 
   var showMessage = function(type, message) {
     $('body').append('<div class="alert alert-' + type + ' error active">' + message + '</div>');

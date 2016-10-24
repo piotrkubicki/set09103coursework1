@@ -73,7 +73,7 @@
     <div id="authors-info">
       {% for author in book.authors %}
       <div class="author">
-        <img src="{{ url_for('static', filename=author.photo) }}" />
+        <img src="{{ author.photo }}" />
         <p><strong>{{ author.first_name }} {{ author.last_name }}</strong></p>
         <p> {{ author.date_of_birth }} {% if author.date_of_dead %} - {{ author.date_of_dead }}{% endif %}</p>
       </div>
