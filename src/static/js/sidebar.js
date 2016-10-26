@@ -139,6 +139,7 @@ $(document).ready(function() {
         if (result.error) {
           showMessage('danger', result.error);
         } else if (result.success) {
+          console.log(window.location.pathname);
           $('#main').html(result.success);
           $('#new-book').modal('toggle');
           showMessage('success', 'Book created successfully.');
@@ -186,6 +187,7 @@ $(document).ready(function() {
       newObject.photo = fr.result
       self.html('Load');
       showMessage('success', 'File loaded successfully');
+      input.value = '';
     };
     
     if (file === undefined) {
