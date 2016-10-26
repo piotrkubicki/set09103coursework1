@@ -59,6 +59,8 @@ $(document).ready(function() {
           $('#genres-sublist').find('li').last().slideDown();
           $('#new-genre').modal('toggle');
           showMessage('success', 'Genre created successfully');
+          $('#genre-name').val('');
+
         }
       },
       error: function() {
@@ -96,6 +98,10 @@ $(document).ready(function() {
           $('#authors-sublist').find('li').last().slideDown();
           $('#new-author').modal('toggle');
           showMessage('success', 'Author created successfully');
+          $('#first-name').val('');
+          $('#last-name').val('');
+          $('#date-of-birth').val('');
+          $('#date-of-dead').val('');
         }
       },
       error: function() {
@@ -136,6 +142,13 @@ $(document).ready(function() {
           $('#main').html(result.success);
           $('#new-book').modal('toggle');
           showMessage('success', 'Book created successfully.');
+          $('#book-title').val('');
+          $('#publisher').val('');
+          $('#book-year').select2('val', 'All');
+          $('#book-genre').select2('val', 'All');
+          $('#book-pages').val('');
+          $('#book-description').val('');
+          $('#book-authors').select2('val', 'All');
         }
       },
       error: function() {

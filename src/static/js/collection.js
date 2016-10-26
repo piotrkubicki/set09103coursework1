@@ -5,7 +5,7 @@ $(document).ready(function() {
       var current_path = window.location.pathname;
       current_path = current_path.split('/');
       
-      if ($.inArray('admin', current_path)) {
+      if ($.inArray('admin', current_path) > 0) {
         window.location.href = '/admin/?page=' + (parseInt(pageNumber) - parseInt(1));
       } else {
         window.location.href = '/?page=' + (parseInt(pageNumber) - parseInt(1));
@@ -19,7 +19,7 @@ $(document).ready(function() {
       var current_path = window.location.pathname;
       current_path = current_path.split('/');
       
-      if ($.inArray('admin', current_path)) {
+      if ($.inArray('admin', current_path) > 0) {
         window.location.href = '/admin/?page=' + (parseInt(pageNumber) + parseInt(1));
       } else {
         window.location.href = "/?page=" + (parseInt(pageNumber) + parseInt(1));
